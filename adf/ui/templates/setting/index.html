@@ -1,0 +1,56 @@
+{% extends "nav_top.html" %}
+
+{% block title %}Setting{% endblock %}
+{% block nav_settings_on %}nav_on{% endblock %}
+
+{% block pagebody %}
+<div id="pageBody">
+
+	<div id="pwd_box">
+	<form id="form_pwd" action="changepwd" method="post">
+		{% csrf_token %}
+		<fieldset id="form_pwd_field">
+			<legend id="form_pwd_title">密码修改（{{user}}）</legend>
+			<table>
+				<tr>
+					<th>旧密码:</th>
+					<td><input type="password" name="old_password" id="id_old_password" class="text" /></td>
+				</tr>
+				{% if form.old_password.errors %}
+				<tr>
+					<th></th><td class="msg">{{ form.old_password.errors|striptags }}</td>
+				</tr>
+				{% endif %}
+				<tr>
+					<th>新密码:</th>
+					<td><input type="password" name="new_password1" id="id_new_password1" class="text" />
+				</tr>
+				{% if form.new_password1.errors %}
+				<tr>
+					<th></th><td class="msg">{{ form.new_password1.errors|striptags }}</td>
+				</tr>
+				{% endif %}
+				<tr>
+					<th>新密码(确认):</th>
+					<td><input type="password" name="new_password2" id="id_new_password2" class="text" /></td>
+				</tr>
+				{% if form.new_password2.errors %}
+				<tr>
+					<th></th><td class="msg">{{ form.new_password2.errors|striptags }}</td>
+				</tr>
+				{% endif %}
+			<tr><th></th><td>&nbsp;</td></tr>
+			<tr>
+				<th></th>
+				<td>
+					<input class="btn" type="submit" title="更改密码" value="更改密码" />
+					<span class="msg">{{msg}}</span>
+				</td>
+			</tr>
+			</table>
+		</fieldset>
+	</form>
+	</div>
+</div>
+{% endblock %}
+

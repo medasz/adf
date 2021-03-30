@@ -1,0 +1,30 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+	<title>{% block title %}{% endblock %} - Web2ghost</title>
+	<link rel="stylesheet" type="text/css" href="/statics/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="/statics/css/nav.css" />
+	<!--link rel="stylesheet" type="text/css" href="/statics/css/skin-white.css" /-->
+	<link rel="stylesheet" type="text/css" href="/statics/css/jquery-ui.css" />
+	<link rel="stylesheet" type="text/css" href="/statics/css/thickbox.css" />
+	<link rel="stylesheet" type="text/css" href="/statics/css/jquery.pnotify.default.css" />
+	<link rel="stylesheet" type="text/css" href="/statics/css/jquery.pnotify.default.icons.css" />
+	{% block css %}{% endblock %}
+	<script type="text/javascript" src="/statics/js/jquery.js"></script>
+	<script type="text/javascript" src="/statics/js/jquery.idTabs.min.js"></script>
+	<script type="text/javascript" src="/statics/js/jquery.pnotify.js"></script>
+	<script type="text/javascript" src="/statics/js/thickbox.js"></script>
+	{% block web2ghost.js %}{% endblock %}
+	{% block js %}{% endblock %}
+	<style>
+	/*ui-pnotify样式放在这是有原因的：css加载要优先，这样js里的定位才兼容，否则在ie下有bugs*/
+	.ui-pnotify.stack-bottomright{
+		right: auto;
+		top: auto;
+	}
+	</style>
+</head>
+<body>
+	{% block body %}{% endblock %}
+</body>
+</html>

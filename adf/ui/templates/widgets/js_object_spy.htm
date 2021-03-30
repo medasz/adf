@@ -1,0 +1,84 @@
+{% extends "new-nav.html" %}
+{% block title %}JS Object Spy - Widgets{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="/statics/js/web2ghost.js"></script>
+{% endblock %}
+
+{% block pagebody %}
+<div class="container jos-wrapper">
+    <div class="row jos-search-wrapper">
+        <div class="col-md-5 col-md-offset-2">
+            <div class="form-group">
+                <label class="tit">显示JS对象方法与属性</label>
+                <input type="text" class="form-control" id="jsobj" value="location" />
+                <p class="tip text-muted">eg: document, navigator, navigator.mimeTypes</p>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <a href="javascript:;" id="jsbutton" class="btn btn-info">查询</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <h5>方法列表：</h5>
+            <div class="well">
+                <div id="func_result"></div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h5>属性列表：</h5>
+            <div class="well">
+                <div id="attr_result"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function _g(o){return document.getElementById(o);}
+    function strip(str){return str.replace(/(^\s*)|(\s*$)/g, "");}
+
+    function func_and_attr(objstr){
+        objstr = strip(objstr);
+        var objarray = objstr.split('.');
+        var obj = window;
+        for(var o in objarray){
+            if(objarray[o]=='window'){continue;}
+            obj = obj[objarray[o]];
+        }
+        //var obj = window['navigator'][objstr];
+        var funcs = "";
+        var attrs = "";
+        for(var p in obj){ 
+            try{
+                if(typeof(obj[p]) == "function"){  
+                    funcs = funcs+p.toString()+'<br />';
+                }else{
+                    var temp = obj[p];
+                    if(p == 'innerHTML' || p == 'outerHTML'){
+                        temp = temp.replace(/>/g,'&gt;').replace(/</g,'&lt;');
+                        console.log(temp);
+                    }
+                    attrs = attrs+p.toString()+' - '+ temp +'<br />';
+                }
+            }catch(e){
+                //alert(p);
+            }
+        } 
+        var func_result = ""
+        var attr_result = ""
+        func_result += funcs;
+        attr_result += attrs;
+        _g('func_result').innerHTML = func_result;
+        _g('attr_result').innerHTML = attr_result;
+    }
+
+    _g('jsbutton').onclick = function(){
+        var objstr = _g('jsobj').value;
+        func_and_attr(objstr);
+    }
+    func_and_attr(_g('jsobj').value);
+</script>
+</div>
+
+{% endblock %}

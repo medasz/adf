@@ -1,0 +1,198 @@
+{% extends "new-nav.html" %}
+
+{% block title %}En/DeCode{% endblock %}
+{% block js %}
+<script type="text/javascript" src="/payloads/lib/ende.js"></script>
+<script type="text/javascript" src="/payloads/jsbeautify/beautify.js"></script>
+<script type="text/javascript" src="/payloads/jsbeautify/beautify-html.js"></script>
+<script type="text/javascript" src="/payloads/jsbeautify/unpackers/javascriptobfuscator_unpacker.js"></script>
+<script type="text/javascript" src="/payloads/jsbeautify/unpackers/urlencode_unpacker.js"></script>
+<script type="text/javascript" src="/payloads/jsbeautify/unpackers/p_a_c_k_e_r_unpacker.js"></script>
+<script type="text/javascript" src="/payloads/jsbeautify/unpackers/myobfuscate_unpacker.js"></script>
+<script type="text/javascript" src="/payloads/jsbeautify/my-js-beautify.js"></script>
+<script type="text/javascript" src="/payloads/packer/my.js"></script>
+<script type="text/javascript" src="/payloads/packer/base2-load.js"></script>
+<script type="text/javascript" src="/payloads/packer/Packer.js"></script>
+<script type="text/javascript" src="/payloads/packer/Words.js"></script>
+<script type="text/javascript" src="/payloads/packer/bindings.js"></script>
+{% endblock %}
+{% block nav_ende_on %}active{% endblock %}
+
+{% block pagebody %}
+	<div class="container encode-wrapper">
+        <div class="row">
+
+            <div class="col-md-4">
+                <div class="action">
+                    <div class="type">
+                        <span>16位编码:</span>
+                        <div class="btn-group pull-right">
+                            <a href="javascript:knownxss.encode.en(16);" class="btn btn-info btn-sm">编码</a>
+                            <a href="javascript:knownxss.encode.de(16);" class="btn btn-primary btn-sm">解码</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span>前缀符号：</span>
+                        <label class="radio-inline">
+                            <input type="radio" name="hex" checked>\u
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="hex" id="hex_x">&#x;
+                        </label>
+                    </div>
+                </div>
+
+                <div class="action">
+                    <div class="type">
+                        <span>10位编码:</span>
+                        <div class="btn-group pull-right">
+                            <a href="javascript:knownxss.encode.en(10);" class="btn btn-info btn-sm">编码</a>
+                            <a href="javascript:knownxss.encode.de(10);" class="btn btn-primary btn-sm">解码</a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <span>前缀符号：</span>
+                        <label class="radio-inline">
+                            <input type="radio" name="dec" id="dec_0" checked>,
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="dec" id="dec_1">c
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="dec" id="dec_2">&#
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="dec" id="dec_3">&#;
+                        </label>
+                    </div>
+                </div>
+
+                <div class="action">
+                    <div class="type">
+                        <span>escape</span>
+                        <div class="btn-group pull-right">
+                            <a href="javascript:knownxss.encode._escape();" class="btn btn-info btn-sm">编码</a>
+                            <a href="javascript:knownxss.encode._unescape();" class="btn btn-primary btn-sm">解码</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action">
+                    <div class="type">
+                        <span>encodeURI</span>
+                        <div class="btn-group pull-right">
+                            <a href="javascript:knownxss.encode._encodeURI();" class="btn btn-info btn-sm">编码</a>
+                            <a href="javascript:knownxss.encode._decodeURI();" class="btn btn-primary btn-sm">解码</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action">
+                    <div class="type">
+                        <span>encodeURIC</span>
+                        <div class="btn-group pull-right">
+                            <a href="javascript:knownxss.encode._encodeURIComponent();" class="btn btn-info btn-sm">编码</a>
+                            <a href="javascript:knownxss.encode._decodeURIComponent();" class="btn btn-primary btn-sm">解码</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action">
+                    <div class="type">
+                        <span>HtmlEncode</span>
+                        <div class="btn-group pull-right">
+                            <a href="javascript:knownxss.encode.htmlencode(1);" class="btn btn-info btn-sm">编码</a>
+                            <a href="javascript:knownxss.encode.htmlencode(2);" class="btn btn-primary btn-sm">解码</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action">
+                    <div class="type">
+                        <span>Html2JS</span>
+                        <div class="btn-group pull-right">
+                            <a href="javascript:knownxss.encode.html2js(1);" class="btn btn-info btn-sm">编码</a>
+                            <a href="javascript:knownxss.encode.html2js(2);" class="btn btn-primary btn-sm">解码</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action">
+                    <div class="type">
+                        <span>base64</span>
+                        <div class="btn-group pull-right">
+                            <a href="javascript:knownxss.encode.base64Code(1);" class="btn btn-info btn-sm">编码</a>
+                            <a href="javascript:knownxss.encode.base64Code(2);" class="btn btn-primary btn-sm">解码</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action">
+                    <div class="type">
+                        <span>UTF-7</span>
+                        <div class="btn-group pull-right">
+                            <a href="javascript:knownxss.encode.utf7_encode(1);" class="btn btn-info btn-sm">编码</a>
+                            <a href="javascript:knownxss.encode.utf7_decode(2);" class="btn btn-primary btn-sm">解码</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action">
+                    <div class="type">
+                        <span>packer</span>
+                        <div class="btn-group pull-right">
+                            <a href="javascript:;" class="btn btn-info btn-sm" id="pack-script">编码</a>
+                            <a href="javascript:;" class="btn btn-primary btn-sm" id="decode-script">解码</a>
+                        </div>
+                    </div>
+                </div>
+                <p id="message">ready</p>
+
+                <br/>
+                <div class="action">
+                    <div class="type">
+                        <span>JS Beautify</span>
+                        <div class="btn-group pull-right">
+                            <a href="javascript:;" class="btn btn-info btn-sm" id="jsbeautify">走你</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="action">
+                    <div class="type">
+                        <span>文本替换</span>
+                        <div class="btn-group pull-right">
+                            <a href="javascript:knownxss.encode.replaceC();" class="btn btn-info btn-sm">走你</a>
+                        </div>
+                        <form class="txt-form">
+                            <div class="form-group">
+                                <input type="text" class="form-control input-sm" id="oldC" placeholder="原始文本">
+                            </div>
+                            <div class="form-group">
+                                <label>替换为</label>
+                                <input type="text" class="form-control input-sm" id="newC" placeholder="替换文本">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-8">
+                <form>
+                    <textarea id="ende_textarea" class="form-control">x=alert;x(/w2g/.source);</textarea>
+                </form>
+
+                <div class="action noBorder">
+                    <div class="type">
+                        <div class="pull-right">
+                            <a href="javascript:try{eval(_g('ende_textarea').value)}catch(e){alert('eval error- -! '+e);};" class="btn btn-info">执行代码</a>
+                            <a href="javascript:try{eval(_g('ende_textarea').value='')}catch(e){alert('eval error- -! '+e)};" class="btn btn-primary">清除代码</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

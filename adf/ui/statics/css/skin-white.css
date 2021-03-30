@@ -1,0 +1,43 @@
+﻿@charset "utf-8";
+input, textarea, select, option{color:#333;}
+textarea{background-color:#fefefe;border:1px solid #333;font-size:13px;}
+body {
+	color: #333;
+	background-color: #fefefe;
+}
+
+
+a{font-size:13px;color:#333;}
+a:hover {color:#09c;}
+.gray{color:#666;}
+
+/*menu*/
+#menu{margin:0px 0px 15px 0px;border-bottom:0px solid #5B738F;}
+#menu #name{padding-left:10px;margin:10px 0;display:block;}
+#menu #name a{font-size:28px;font-weight:bold;text-decoration:none;color:#333;}
+#nav {display:block;padding:5px 10px;}
+#nav .mainlevel {float:left;}
+#nav .split {display:block;background:#5B738F;width:1px;height:32px;margin:0px 2px;}
+#nav .mainlevel a {display:block; font-size:15px;font-weight:bold;color:#444; text-decoration:none; line-height:32px; padding:0 3px; width:104px;}
+#nav .mainlevel a:hover {font-size:15px;color:#fff; font-weight:bold; text-decoration:none; background:#5B738F;}
+#nav .mainlevel ul {display:none; position:absolute;}
+#nav .mainlevel li {border-top:1px solid #555; background:#eee;}
+#nav .mainlevel li a{font-size:13px;color:#333; text-decoration:none; line-height:28px; display:block; width:116px;}
+#nav .mainlevel li a:hover {font-size:14px;}
+.log {text-align:center; color:skyblue; line-height:24px; text-transform:capitalize; margin:50px auto;}
+#shortcut{position:absolute;right:10px;top:10px;}
+#shortcut a{color:#333;text-decoration:none;}
+#shortcut a:hover {color:#09c;text-decoration:none;}
+#nav .nav_on a {color:#fff;font-size:15px; font-weight:bold;background:#5B738F;}
+#nav .nav_on a:hover {}
+
+#sys_tip{
+	background:#9E0028;
+	color:#fefefe;
+}
+
+/*----------------------------------*/
+/*Codz*/
+/*----------------------------------*/
+#addcodz_box label{color:#333;}
+

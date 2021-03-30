@@ -1,0 +1,81 @@
+{% extends "new-nav.html" %}
+
+{% block title %}Http Debug{% endblock %}
+{% block nav_http_on %}active{% endblock %}
+{% block js %}
+    <script type="text/javascript" src="/statics/js/web2ghost.js"></script>
+{% endblock %}
+
+{% block pagebody %}
+	<div class="container http-wrapper">
+		<div id="sys_tip" class="alert alert-danger" style="display:none" role="alert"></div>
+		{% csrf_token %}
+        <div class="row">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#J-httpView" data-toggle="tab">HTTP VIEW</a></li>
+                <li class=""><a href="#J-reg" data-toggle="tab">正则验证</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade active in" id="J-httpView">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <form>
+                                <div class="form-group">
+                                    <label>URL:</label>
+                                    <input type="text" id="hv_url" class="form-control" value="http://www.baidu.com/">
+                                </div>
+                                <div class="form-group">
+                                    <select name="method" id="hv_method" class="form-control">
+                                        <option value="get">GET</option>
+                                        <option value="post">POST</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>POST DATA: </label>
+                                    <input type="text" id="hv_postdata" placeholder="a=1&b=2" class="form-control" />
+                                </div>
+                                <div class="form-group">
+                                    <label>REQ HEADERS: </label>
+                                    <textarea id="hv_req_headers" class="form-control">User-Agent: w2g
+Referer: http://www.google.com/
+Cookie: </textarea>
+                                </div>
+                            </form>
+                            <a href="javascript:;" id="hv_execute" class="btn btn-info btn-lg">请求</a>
+                        </div>
+                        <div class="col-md-8">
+                            <form>
+                                <div class="form-group">
+                                    <label>HTTP RESPONSE: </label>
+                                    <textarea id="hv_response" class="form-control"></textarea>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="J-reg">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select id="regx_select" class="form-control">
+                                <option value="">-- 正则表达式 --</option>
+                                <option value="[A-Z_a-z0-9-\.]+@([A-Z_a-z0-9-]+\.)+[a-z0-9A-Z]{2,4}">Email地址</option>
+                                <option value="%28http%3A%7Cftp%3A%29%5C/%5C/%5BA-Za-z0-9%5D+%5C.%5BA-Za-z0-9%5D+%5B%5C/%3D%5C%3F%25%5C-%26_%7E%60@%5B%5C%5D%5C%27%3A+%21%5D*%28%5B%5E%3C%3E%5C%22%5D%29*">链接地址</option>
+                                <option value="(0|[1-9]\d?|[0-1]\d{2}|2[0-4]\d|25[0-5]).(0|[1-9]\d?|[0-1]\d{2}|2[0-4]\d|25[0-5]).(0|[1-9]\d?|[0-1]\d{2}|2[0-4]\d|25[0-5]).(0|[1-9]\d?|[0-1]\d{2}|2[0-4]\d|25[0-5])">IP地址</option>
+                                <option value="d{3}-d{8}|d{4}-d{7}">国内电话号码</option>
+                                <option value="((\(\d{2,3}\))|(\d{3}\-))?((1[345]\d{9})|(18\d{9}))">手机号</option>
+                                <option value="[1-9][0-9]{4,}">QQ号</option>
+                                <option value="d{15}|d{18}">身份证号</option>
+                                <option value="/%28location%5Cs*%5B%5C%5B.%5D%29%7C%28%5B.%5C%5B%5D%5Cs*%5B%22%27%5D%3F%5Cs*%28arguments%7CdialogArguments%7CinnerHTML%7Cwrite%28ln%29%3F%7Copen%28Dialog%29%3F%7CshowModalDialog%7Ccookie%7CURL%7CdocumentURI%7CbaseURI%7Creferrer%7Cname%7Copener%7Cparent%7Ctop%7Ccontent%7Cself%7Cframes%29%5CW%29%7C%28localStorage%7CsessionStorage%7CDatabase%29/">DOM XSS输入</option>
+                                <option value="/%28%28src%7Chref%7Cdata%7Clocation%7Ccode%7Cvalue%7Caction%29%5Cs*%5B%22%27%5C%5D%5D*%5Cs*%5C+%3F%5Cs*%3D%29%7C%28%28replace%7Cassign%7Cnavigate%7CgetResponseHeader%7Copen%28Dialog%29%3F%7CshowModalDialog%7Ceval%7Cevaluate%7CexecCommand%7CexecScript%7CsetTimeout%7CsetInterval%29%5Cs*%5B%22%27%5C%5D%5D*%5Cs*%5C%28%29/">DOM XSS输出</option>
+                            </select>
+                        </div>
+                        <div class="col-md-8">
+                            <textarea id="regx_textarea" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+

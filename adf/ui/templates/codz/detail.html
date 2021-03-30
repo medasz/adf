@@ -1,0 +1,15 @@
+{% load w2gfilter %}
+<div>
+	<div id="detail_codz">
+		{% autoescape off %}
+		{{codz_codz|clean}}	
+	</div>
+	<div id="detail_desc">
+	<br />
+	<font color="#09c"><b>Desc: -------------------------------------</b></font>
+	<br />
+		{{codz_desc|clean}}
+		{% endautoescape %}
+	</div>
+</div>
+

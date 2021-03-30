@@ -1,0 +1,22 @@
+{% extends "new-nav.html" %}
+
+{% block title %}About - Web2Ghost{% endblock %}
+{% block nav_help_on %}active{% endblock %}
+
+{% block pagebody %}
+	<div class="container help-wrapper">
+	    <div class="well">
+	        <h4>Web前端漏洞利用平台，功能列表：</h4>
+	        <ul>
+	            <li>En/Decode - 提供攻击代码的加解密、字符集转换与混淆压缩功能</li>
+	            <li>Codz - 提供攻击代码库（包括自定义库、RSnake的XSS Cheat Sheet、pdp的AttackAPI等），并提供攻击代码的生成功能</li>
+	            <li>C&C Ghost - 提供基于浏览器的远程控制功能，收集被XSS用户的隐私及隐私管理</li>
+	            <li>Http Debug - 提供HTTP请求、Fuzzing请求、Flash请求等功能</li>
+	            <li>Widgets - 提供小控件：JS对象方法与属性浏览等 - 会逐渐添加……</li>
+	        </ul>
+	    </div>
+	    <p class="text-muted">就像是潜伏在你浏览器周围的鬼魂，看不见，可威胁却在持续……这个平台极大地方便我们进行XSS&CSRF等基于Web前端的漏洞利用。</p>
+	    <p class="text-muted">Django&Python&MySQL构建。</p>
+	</div>
+{% endblock %}
+

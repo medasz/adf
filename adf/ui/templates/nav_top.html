@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block js %}<script type="text/javascript" src="/statics/js/web2ghost.js"></script>{% endblock %}
+{% block body %}
+<div id="pageWrap">
+<div id="menu">
+	<!--span id="name" onclick="showinfo('Web2Ghost','The Ghost Around Your Browsers!')">Web2Ghost</span-->
+	<span id="name"><a href="/">XSS脆弱性分析工具</a></span>
+	<span id="shortcut"><a href="/setting">setting</a> | <a href="/about">about</a> | <a href="/logout">logout</a></span>
+	<span id="sys_tip"></span>
+	<ul id="nav">
+		<li class="mainlevel {%block nav_ende_on%}{%endblock%}"><a href="/ende/">En/DeCode</a></li>
+		<li class="mainlevel split"></li>
+		<li class="mainlevel {%block nav_codz_on%}{%endblock%}"><a href="/codz/" >Codz</a></li>
+		<li class="mainlevel split"></li>
+		<li class="mainlevel {%block nav_cc_on%}{%endblock%}"><a href="/cc/">C&C Ghosts</a></li>
+		<li class="mainlevel split"></li>
+		<li class="mainlevel {%block nav_http_on%}{%endblock%}"><a href="/http/">Http Debug</a></li>
+		<li class="mainlevel split"></li>
+		<li class="mainlevel {%block nav_widgets_on%}{%endblock%}"><a href="#">Widgets</a>
+			<ul>
+			<li><a href="/widgets/js_object_spy" target="_blank">JS Object Spy</a></li>
+			</ul>
+		</li>
+		<!--li class="mainlevel split"></li>
+		<li class="mainlevel {%block nav_settings_on%}{%endblock%}"><a href="/settings/">Settings</a></li-->
+	</ul>
+	<div class="clear"></div>
+</div>
+{% block pagebody %} {% endblock %}
+<div id="pageFoot" class="gray">&copy;evilcos@xeyeteam</div>
+</div>
+{% endblock %}
+

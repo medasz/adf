@@ -1,0 +1,29 @@
+{%extends "base.html" %}
+
+{% block title %}Web2Ghost - A Ghost Around Your Browsers{% endblock %}
+
+{%block body %}
+<div class="login">
+	<div>
+		<h1>Web<span class="blue">2</span>Ghost</h1>
+		<span class='red'>/*-+ A Ghost Around Your Browsers. +-*/</span>
+		<br />
+		<br />
+	</div>
+	<form method="post" action=".">
+		{% csrf_token %}
+		<label for="username">USER: </label><input id="username" name="username" type="text" class="text" value="" /> 
+		<label for="password">PASS: </label><input id="password" name="password" type="password" class="text" value="" /> 
+		<input type="submit" class="submit" value="LOGIN" />
+		<input type="hidden" name="next" value="{{ next }}" /> 
+	
+		<div class="error">
+		{%if form.errors%}
+		<p><span class='red'>>> Your username and password didn't match. Please try again.</span></p>
+		{%endif %}
+		</div>
+	</form>
+</div>
+{%endblock %}
+
+

@@ -1,0 +1,204 @@
+{% extends "new-nav.html" %}
+{% load w2gfilter %}
+
+{% block title %}Codz{% endblock %}
+{% block nav_codz_on %}active{% endblock %}
+
+{% block pagebody %}
+	<div class="container codz-wrapper">
+		{% csrf_token %}
+        <div id="sys_tip" class="text-danger">
+        </div>
+        <div class="row">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#J-codzlist" data-toggle="tab">CODZ列表</a></li>
+                <li class=""><a href="#J-codzauto" data-toggle="tab">CODZ生成</a></li>
+                <li class=""><a href="#J-xssmisc" data-toggle="tab">XSS MISC</a></li>
+            </ul>
+            <div class="tab-content">
+                <div class="tab-pane fade active in" id="J-codzlist">
+                    <div class="panel panel-primary hidden-sm hidden-xs">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">
+                                <a role="button" data-toggle="collapse" href="#J-collapse">添加代码</a>
+                            </h3>
+                        </div>
+                        <div id="J-collapse" class="collapse">
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Key:</label>
+                                            <input type="text" class="form-control input-sm" id="addcodz_key" placeholder="key">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Type:</label>
+                                            <select id="addcodz_type" class="form-control input-sm">
+                                                <option value="exploit">exploit</option>
+                                                <option value="payload">payload</option>
+                                                <option value="system">system</option>
+                                                <option value="other">other</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Catelog:</label>
+                                            <input type="text" class="form-control input-sm" id="addcodz_cate" value="" placeholder="catelog">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Author:</label>
+                                            <input type="text" class="form-control input-sm" id="addcodz_author" value="" placeholder="author">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Codz:</label>
+                                            <textarea class="form-control input-sm" id="codz_textarea" placeholder="codz"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Desc:</label>
+                                            <textarea class="form-control input-sm" id="desc_textarea" placeholder="desc"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="action">
+                                    <button class="btn btn-info" id="addcodz_submit">提交代码</button>
+                                    <button class="btn btn-primary" id="addcodz_clean">清除代码</button>
+                                </div>
+                                <input type="hidden" id="action" value="" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bs-component">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th class="hidden-xs hidden-sm">
+                                        <input type="checkbox" id="all_codz_check">
+                                    </th>
+                                    <th>Key</th>
+                                    <th class="hidden-xs hidden-sm">Type</th>
+                                    <th>Desc</th>
+                                    <th class="hidden-xs hidden-sm">Catelog</th>
+                                    <th class="hidden-xs hidden-sm">Author</th>
+                                    <th class="hidden-xs hidden-sm">-</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+		                        {% for codz in codz_list %}
+	                            	<tr>
+										<td class="hidden-xs hidden-sm">
+											<input type="checkbox" class="codz_check" value="{{codz.id}}" />
+										</td>
+										<td>
+											<a data-action="modalBtn" data-type="showDetail" data-id="{{codz.id}}" href="javascript:;" title="代码细节">{{codz.key}}</a>
+										</td>
+										<td class="hidden-xs hidden-sm" title="{{codz.type}}">
+											{% autoescape off %}
+												{{codz.type|codz_type}}
+										</td>
+												<!--td>{{codz.codz|clean_less}}</td-->
+											{% endautoescape %}
+										<td>{{codz.desc|truncatechars:57}}</td>
+										<td class="hidden-xs hidden-sm">{{codz.catelog|default:"-"}}</td>
+										<td class="hidden-xs hidden-sm">{{codz.author|default:"-"}}</td>
+										<td class="hidden-xs hidden-sm">
+											<a href="javascript:;" data-action="modalBtn" data-type="del" data-id="{{codz.id}}">del</a>
+											/
+											<a href="javascript:;" class="codz_edit" data-id="{{codz.id}}">edit</a>
+										</td>
+									</tr>
+								{% endfor %}
+                            </tbody>
+                        </table>
+                        <p class="hidden-xs hidden-sm">
+                        	<button id="J-batch-del" class="btn btn-danger">批量删除</button>
+                        </p>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="J-codzauto">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>URL:</label>
+                                <input type="text" id="ca_action" class="form-control" name="ca_action" value="http://site/submit.php" placeholder="http://example.com/demo.php"/>
+                            </div>
+                            <div class="form-group">
+                                <label>PARAMS:</label>
+                                <input type="text" id="ca_kv" class="form-control" name="ca_kv" value="name1=value1&name2=value2" placeholder="a=1&b=2"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="radio-inline">
+                                    <input type="radio" name="ca_method" value="GET">
+                                    GET
+                                </label>
+                                <label class="radio-inline">
+                                    <input type="radio" name="ca_method" value="POST">
+                                    POST
+                                </label>
+                                <!-- <select id="ca_method" name="ca_method" class="form-control">
+                                    <option value="GET">GET</option>
+                                    <option value="POST">POST</option>
+                                </select> -->
+                            </div>
+                            <div class="form-group">
+                                <select id="csrflang" class="form-control">
+                                    <option value="">CSRF语言</option>
+                                    <option value="js">JavaScript</option>
+                                    <option value="as">Flash AS3</option>
+                                    <option value="asp">ASP</option>
+                                    <option value="php">PHP</option>
+                                    <!--option value="py">Python</option-->
+                                </select>
+                            </div>
+                            <button id="button_csrf" class="btn btn-info btn-lg" disabled>生成CSRF代码</button>
+                            <div class="form-group">
+                                <select class="form-control" id="ajax_form_type">
+                                    <option value="">Content-Type</option>
+                                    <option value="1">multipart/form-data</option>
+                                    <option value="2">application/x-www-form-urlencoded</option>
+                                </select>
+                            </div>
+                            <!--input class="button" type="checkbox" name="use_jquery" id="use_jquery" /><label for="use_jquery"> JQuery</label>
+                            <br /-->
+                            <button id="button_ajax" class="btn btn-info btn-lg" disabled>生成AJAX代码</button>
+                        </div>
+                        <div class="col-md-8">
+                            <textarea id="ca_textarea" class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="J-xssmisc">
+                    <textarea id="xssmisc_textarea" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <div id="J-modal" class="modal fade">
+          <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Cookie内容</h4>
+              </div>
+              <div class="modal-body">
+              </div>
+              <div class="modal-footer hidden">
+                <button type="button" id="J-confirm" class="btn btn-info">确定</button>
+                <button type="button" id="J-cancel" class="btn btn-primary" data-dismiss="modal">取消</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+{% endblock %}
+
+{% block js %}
+	<script type="text/javascript" src="/statics/js/web2ghost.js"></script>
+	<script type="text/javascript" src="/payloads/lib/codzauto.js"></script>
+	<script type="text/javascript" src="/payloads/lib/w2g.js"></script>
+{% endblock %}
+

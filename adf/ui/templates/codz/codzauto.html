@@ -1,0 +1,34 @@
+<div id="ca_left">
+	<div id="ca_blank">
+		<select id="ca_method" name="ca_method">
+			<option value="GET">GET</option>
+			<option value="POST">POST</option>
+		 </select>
+		<input type="text" id="ca_action" name="ca_action" value="http://site/submit.php" />
+		<input type="text" id="ca_kv" name="ca_kv" value="name1=value1&name2=value2" />
+		<br />
+	</div>
+	<textarea id="ca_textarea"></textarea>
+</div>
+<div id="ca_right">
+	<select style="width:110px" id="csrflang">
+		<option value="">CSRF语言</option>
+		<option value="js">JavaScript</option>
+		<option value="as">Flash AS3</option>
+		<option value="asp">ASP</option>
+		<option value="php">PHP</option>
+		<!--option value="py">Python</option-->
+	</select>
+	<input type="button" id="button_csrf" value="生成CSRF代码" disabled="true" />
+	<br />
+	<br />
+	<select style="width:110" id="ajax_form_type">
+		<option value="">Content-Type</option>
+		<option value="1">multipart/form-data</option>
+		<option value="2">application/x-www-form-urlencoded</option>
+	</select>
+	<!--input class="button" type="checkbox" name="use_jquery" id="use_jquery" /><label for="use_jquery"> JQuery</label>
+	<br /-->
+	<input type="button" id="button_ajax" value="生成AJAX代码" disabled="true" />
+</div>
+

